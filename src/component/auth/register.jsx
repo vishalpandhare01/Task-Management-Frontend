@@ -23,16 +23,14 @@ export default function RegisterForm({ setIsLogin }) {
     try {
       e.preventDefault();
       const res = await dispatch(register(form));
-      console.log(res)
-      if (res.error.message) {
+      console.log(res);
+      if (res?.error?.message) {
         setErrorMsg(res.error.message);
+      } else {
+        setErrorMsg("register successfully");
       }
     } catch (error) {}
   };
-
-  useEffect(()=>{
-    setErrorMsg("register successfully")
-  },[data])
 
   return (
     <Box
