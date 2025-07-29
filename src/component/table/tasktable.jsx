@@ -16,7 +16,7 @@ import { useDispatch, usere, useSelector } from "react-redux";
 import { createTaskAPI, fetchTasksAPI } from "@/redux/api/taskApi";
 import { fetchTasks, updateTaskStatus } from "@/redux/reducer/task";
 
-export default function TaskTable() {
+export default function TaskTable({notification}) {
   const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -40,7 +40,7 @@ export default function TaskTable() {
 
   useEffect(() => {
     fetchTaskData();
-  }, [modalOpen]);
+  }, [modalOpen ,notification]);
 
   useEffect(() => {
     try {
@@ -49,7 +49,7 @@ export default function TaskTable() {
     } catch (error) {
       console.log("fetch error", error);
     }
-  }, [tasksData ]);
+  }, [tasksData]);
 
   if (loading) return <div>Loading tasks...</div>;
   if (error) return <div>Error: {error}</div>;
