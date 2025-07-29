@@ -26,25 +26,30 @@ export default function TaskTable() {
   const loading = useSelector((state) => state.tasks.loading);
   const error = useSelector((state) => state.tasks.error);
 
-  const handleAddTask = (newTask) => {
+  const handleAddTask = async (newTask) => {
     try {
-      dispatch(createTaskAPI(newTask));
+     await dispatch(createTaskAPI(newTask));
     } catch (erro) {}
   };
 
-  useEffect(() => {
+  const fetchTaskData = () => {
     try {
       dispatch(fetchTasks());
     } catch (error) {}
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchTaskData();
+  }, [modalOpen]);
 
   useEffect(() => {
     try {
       setTasks(tasksData);
+      console.log("added?")
     } catch (error) {
       console.log("fetch error", error);
     }
-  }, [tasksData]);
+  }, [tasksData ]);
 
   if (loading) return <div>Loading tasks...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -70,6 +75,7 @@ export default function TaskTable() {
           onSubmitTask={handleAddTask}
         />
       </Box>
+      <p> {tasks && tasks.length == 0 && <>Add New Task</>}</p>
       <Box>
         <Table>
           <TableHead>
